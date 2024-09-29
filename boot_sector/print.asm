@@ -64,3 +64,24 @@ print_hex_shift_done:
 print_hex_done:
   POPA
   RET
+
+[BITS 32]
+; Constants for VGA mode
+VIDEO_MEMORY EQU 0xb8000
+WHITE_ON_BLACK EQU 0x0f
+
+print_string_pm:      ; print a null-terminated string at ebx
+  PUSHA
+  MOV edx, VIDEO_MEMORY
+print_string_pm_loop:
+  MOV al, [ebx]
+  MOV ah, WHITE_ON_BLACK
+  CMP al, 0
+  JE print_string_pm_done
+  MOV [edx], ax
+  ADD ebx, 1
+  ADD edx, 2
+  JMP print_string_pm_loop
+print_string_pm_done:
+  POPA
+  RET
