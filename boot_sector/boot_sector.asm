@@ -11,14 +11,14 @@ KERNEL_OFFSET EQU 0x1000
 	; Output that real mode is being entered
 	MOV bx, MSG_REAL_MODE
 	CALL print_string
-  CALL print_newline
+	CALL print_newline
 
 	; Load kernel
 	CALL load_kernel
 
 	; Switch to protected mode
 	CALL switch_to_pm
-	JMP $  ; this instruction is never reached
+	JMP $				; this instruction is never reached
 
 %include "disk_load.asm"
 %include "print.asm"
@@ -28,16 +28,16 @@ KERNEL_OFFSET EQU 0x1000
 [BITS 16]
 ; routine to load kernel
 load_kernel:
-  ; Output that kernel is being loaded
-  MOV bx, MSG_LOAD_KERNEL
-  CALL print_string
-  CALL print_newline
-  ; Load 1 sector (after boot sector) to the kernel offset
-  MOV bx, KERNEL_OFFSET
-  MOV dh, 1
-  MOV dl, [BOOT_DRIVE]
-  CALL disk_load
-  RET
+	; Output that kernel is being loaded
+	MOV bx, MSG_LOAD_KERNEL
+	CALL print_string
+	CALL print_newline
+	; Load 1 sector (after boot sector) to the kernel offset
+	MOV bx, KERNEL_OFFSET
+	MOV dh, 1
+	MOV dl, [BOOT_DRIVE]
+	CALL disk_load
+	RET
 
 [BITS 32]
 BEGIN_PM:				; entry point for 32-bit protected mode
@@ -46,7 +46,7 @@ BEGIN_PM:				; entry point for 32-bit protected mode
 	CALL print_string_pm
 	; Load the kernel
 	CALL KERNEL_OFFSET
-	JMP $  ; this instruction is never reached
+	JMP $				; this instruction is never reached
 
 
 ; Global variables
